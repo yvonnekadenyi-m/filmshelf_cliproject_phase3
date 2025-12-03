@@ -14,3 +14,5 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     
+    reviews = relationship('Review', back_populates='user', cascade='all, delete-orphan')
+    
