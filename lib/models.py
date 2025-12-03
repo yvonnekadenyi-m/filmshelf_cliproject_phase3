@@ -26,3 +26,5 @@ class Movie(Base):
     title = Column(String, nullable=False)
     genre = Column(String, nullable=False)
     year = Column(Integer, nullable=False)
+
+    reviews = relationship('Review', back_populates='movie', cascade='all, delete-orphan')
