@@ -5,4 +5,6 @@ from sqlalchemy.orm import relationship, sessionmaker
 Base = declarative_base()
 
 engine = create_engine('sqlite:///example.db')
+Session = sessionmaker(bind=engine)
+session = Session()
 
