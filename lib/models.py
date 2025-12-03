@@ -50,8 +50,8 @@ class Review(Base):
         return f"<Review(id={self.id}, user_id={self.user_id}, movie_id={self.movie_id}, watched={self.watched})>"
 
     def init_db():
-    Base.metadata.create_all(engine)
+        Base.metadata.create_all(engine)
     print("✅ Database initialized!")
     
     if __name__ == "__main__":
-    init_db()
+        init_db()
