@@ -45,5 +45,9 @@ class Review(Base):
 
     user = relationship('User', back_populates='reviews')
     movie = relationship('Movie', back_populates='reviews')
+
+    def __repr__(self):
+        return f"<Review(id={self.id}, user_id={self.user_id}, movie_id={self.movie_id}, watched={self.watched})>"
+
     
     
