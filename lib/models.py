@@ -39,3 +39,7 @@ class Review(Base):
     content = Column(String, nullable=False)
     rating = Column(Integer, nullable=False)
     watched = Column(Boolean, default=False)
+
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    movie_id = Column(Integer, ForeignKey('movies.id'), nullable=False)
+    
