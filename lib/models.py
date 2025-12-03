@@ -21,3 +21,5 @@ class User(Base):
 
 class Movie(Base):
     __tablename__ = 'movies'
+
+    id = Column(Integer, primary_key=True)
