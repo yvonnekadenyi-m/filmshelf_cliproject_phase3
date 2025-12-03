@@ -42,4 +42,8 @@ class Review(Base):
 
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     movie_id = Column(Integer, ForeignKey('movies.id'), nullable=False)
+
+    user = relationship('User', back_populates='reviews')
+    movie = relationship('Movie', back_populates='reviews')
+    
     
