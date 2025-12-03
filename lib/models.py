@@ -28,3 +28,14 @@ class Movie(Base):
     year = Column(Integer, nullable=False)
 
     reviews = relationship('Review', back_populates='movie', cascade='all, delete-orphan')
+
+    def __repr__(self):
+        return f"<Movie(id={self.id}, title='{self.title}', year={self.year})>"
+
+class Review(Base):
+    __tablename__ = 'reviews'
+
+    id = Column(Integer, primary_key=True)
+    content = Column(String, nullable=False)
+    rating = Column(Integer, nullable=False)
+    watched = Column(Boolean, default=False)
