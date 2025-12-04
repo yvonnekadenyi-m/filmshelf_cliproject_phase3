@@ -31,3 +31,8 @@ def list_users():
         if not users:
             print("📭 No users found.")
             return        
+        
+        table = [[user.id, user.name] for user in users]
+        print(tabulate(table, headers=["ID", "Name"], tablefmt="grid"))
+      finally:
+        session.close()  
