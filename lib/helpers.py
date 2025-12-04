@@ -10,4 +10,8 @@ def create_user(name):
             print(f"❌ User '{name}' already exists!")
             return None
 
-        
+        user = User(name=name)
+        session.add(user)
+        session.commit()
+        print(f"✅ User '{name}' created successfully!")
+        return user
