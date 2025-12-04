@@ -59,3 +59,9 @@ def delete_user(user_id):
     
     finally:
         session.close()
+
+
+def add_movie(title, genre=None, year=None):
+    """Add a movie to the database (or return existing)"""
+    session = Session()
+    try:
