@@ -1,2 +1,8 @@
 from lib.models import Session, User, Movie, Review
 from tabulate import tabulate
+
+def create_user(name):
+    """Create a new user"""
+    session = Session()
+    try:
+        
