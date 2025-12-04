@@ -36,3 +36,10 @@ def list_users():
         print(tabulate(table, headers=["ID", "Name"], tablefmt="grid"))
     finally:
         session.close()  
+
+
+def delete_user(user_id):
+    """Delete a user"""
+    session = Session()
+    try:
+        
