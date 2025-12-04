@@ -46,3 +46,8 @@ def delete_user(user_id):
         if not user:
             print(f"❌ User with ID {user_id} not found!")
             return False
+        
+        session.delete(user)
+        session.commit()
+        print(f"✅ User '{user.name}' deleted successfully!")
+        return True
