@@ -42,4 +42,7 @@ def delete_user(user_id):
     """Delete a user"""
     session = Session()
     try:
-        
+        user = session.query(User).filter_by(id=user_id).first()
+        if not user:
+            print(f"❌ User with ID {user_id} not found!")
+            return False
