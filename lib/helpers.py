@@ -34,5 +34,5 @@ def list_users():
         
         table = [[user.id, user.name] for user in users]
         print(tabulate(table, headers=["ID", "Name"], tablefmt="grid"))
-      finally:
+    finally:
         session.close()  
