@@ -56,3 +56,6 @@ def delete_user(user_id):
         session.rollback()
         print(f"❌ Error deleting user: {e}")
         return False
+    
+    finally:
+        session.close()
