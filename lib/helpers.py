@@ -51,3 +51,8 @@ def delete_user(user_id):
         session.commit()
         print(f"✅ User '{user.name}' deleted successfully!")
         return True
+    
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error deleting user: {e}")
+        return False
