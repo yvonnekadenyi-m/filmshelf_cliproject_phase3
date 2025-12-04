@@ -22,3 +22,12 @@ def create_user(name):
         return None
     finally:
         session.close()
+
+def list_users():
+    """Display all users"""
+    session = Session()
+    try:
+        users = session.query(User).all()
+        if not users:
+            print("📭 No users found.")
+            return        
