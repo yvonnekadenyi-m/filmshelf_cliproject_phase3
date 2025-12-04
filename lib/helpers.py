@@ -5,9 +5,9 @@ def create_user(name):
     """Create a new user"""
     session = Session()
     try:
-        user = User(name=name)
-        session.add(user)
-        session.commit()
-        print(f"✅ User '{name}' created successfully!")
+        existing = session.query(User).filter_by(name=name).first()
+        if existing:
+            print(f"❌ User '{name}' already exists!")
+            return None
 
         
