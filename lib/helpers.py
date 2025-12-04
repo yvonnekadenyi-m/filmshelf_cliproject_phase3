@@ -15,3 +15,10 @@ def create_user(name):
         session.commit()
         print(f"✅ User '{name}' created successfully!")
         return user
+
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error creating user: {e}")
+        return None
+    finally:
+        session.close()
