@@ -90,4 +90,22 @@ def main():
             current_user = get_current_user(session)
             if current_user:
                 print(f"✅ Switched to user: {current_user.name}")
-                   
+
+
+        elif choice == "5":
+            if not current_user:
+                print("❌ Please select a user first (Option 4)!")
+                continue
+            
+            title = input("\nEnter movie title: ").strip()
+            if not title:
+                print("❌ Title cannot be empty!")
+                continue
+
+            genre = input("Enter genre (optional): ").strip() or None
+            year_input = input("Enter year (optional): ").strip()
+            year = int(year_input) if year_input.isdigit() else None
+            
+            movie = add_movie(title, genre, year)
+            if movie:
+                add_to_watchlist(current_user.id, movie.id)        
