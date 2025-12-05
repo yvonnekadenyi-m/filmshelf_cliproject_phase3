@@ -97,3 +97,14 @@ def add_to_watchlist(user_id, movie_id):
             print("ℹ️  Movie already in watchlist.")
             return existing
         
+        review = Review(user_id=user_id, movie_id=movie_id, watched=False)
+        session.add(review)
+        session.commit()
+        print("✅ Movie added to your watchlist!")
+        return review
+    
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error adding to watchlist: {e}")
+        return None
+        
