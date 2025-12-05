@@ -73,3 +73,21 @@ def main():
                 create_user(name)
             else:
                 print("❌ Name cannot be empty!")
+
+        elif choice == "2":
+            list_users()
+        
+        elif choice == "3":
+            try:
+                user_id = int(input("\nEnter user ID to delete: "))
+                delete_user(user_id)
+                if current_user and current_user.id == user_id:
+                    current_user = None
+            except ValueError:
+                print("❌ Please enter a valid number!")
+
+        elif choice == "4":
+            current_user = get_current_user(session)
+            if current_user:
+                print(f"✅ Switched to user: {current_user.name}")
+                   
