@@ -215,3 +215,42 @@ def list_users():
         if not users:
             print("No users found.")
         else:
+
+             table = [(u.id, u.username, u.email or "-") for u in users]
+            print(tabulate(table, headers=["ID", "Username", "Email"], tablefmt="github"))
+
+def delete_user():
+    for session in get_session():
+        users = User.get_all(session)
+        if not users:
+            print("No users found.")
+            return
+        user = choose_from_list(users, lambda u: f"{u.username} (id={u.id})")
+        if not user:
+            return
+        if user.reviews:
+            print("User has reviews; deleting will remove their reviews too.")
+        User.delete(session, user)
+        print(f"'{user.username}' deleted.")
+
+def find_user():
+    username = prompt_nonempty("Username search: ")
+    for session in get_session():
+        matches = session.query(User).filter(User.username.ilike(f"%{username}%")).all()
+        if not matches:
+            print("No matching users.")
+            return
+        rows = [(u.id, u.username, u.email or "-") for u in matches]
+        print(tabulate(rows, headers=["ID", "Username", "Email"], tablefmt="github"))
+
+def view_user_reviews():
+    for session in get_session():
+        user = choose_from_list(User.get_all(session), lambda u: f"{u.username} (id={u.id})")
+        if not user:
+            return
+        reviews = user.reviews
+        if not reviews:
+            print("User has not added any reviews.")
+            return
+        rows = [(r.id, r.movie.title, r.rating, r.comment or "-") for r in reviews]
+        print(tabulate(rows, headers=["Review ID", "Movie", "Rating", "Comment"], tablefmt="github"))
