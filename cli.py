@@ -117,3 +117,32 @@ def view_movies_for_genre():
 def add_movie():
     title = prompt_nonempty("Movie title: ")
     genre_name = prompt_nonempty("Genre: ")
+
+    for session in get_session():
+    genre = session.query(Genre).filter_by(name=genre_name).first()
+    if not genre:
+        genre = Genre.create(session, name=genre_name)
+
+    exists = session.query(Movie).filter_by(title=title, genre_id=genre.id).first()
+    if exists:
+        print("This movie already exists.")
+        return
+
+    try:
+        Movie.create(session, title=title, genre=genre)
+        print(f"'{title}' added under genre '{genre_name}'.")
+    except ValueError as exc:
+        print(exc)
+def list_movies():
+    for session in get_session():
+        movies = (
+            session.query(Movie)
+            .outerjoin(Genre)
+            .with_entities(Movie.id, Movie.title, Genre.name)
+            .all()
+        )
+        if not movies:
+            print("No movies found.")
+        else:
+            print(tabulate(movies, headers=["ID", "Title", "Genre"], tablefmt="github"))
+
