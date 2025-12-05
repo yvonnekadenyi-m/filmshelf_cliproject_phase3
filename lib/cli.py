@@ -168,6 +168,21 @@ def main():
                 print("❌ Please select a user first (Option 4)!")
                 continue
             list_all_reviews(current_user.id)
+
+
+        elif choice == "0":
+            print("\n👋 Thanks for using FilmShelf! Goodbye!")
+            session.close()
+            break
+        
+        else:
+            print("❌ Invalid choice! Please try again.")
+        
+        input("\nPress Enter to continue...")
+
+
+if __name__ == "__main__":
+    main()     
               
         
                     
