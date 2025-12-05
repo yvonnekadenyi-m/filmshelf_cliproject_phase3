@@ -161,6 +161,14 @@ def main():
                     print("❌ Rating must be between 1 and 5!")
             except ValueError:
                 print("❌ Please enter valid numbers!")
+
+
+        elif choice == "10":
+            if not current_user:
+                print("❌ Please select a user first (Option 4)!")
+                continue
+            list_all_reviews(current_user.id)
+              
         
                     
                         
