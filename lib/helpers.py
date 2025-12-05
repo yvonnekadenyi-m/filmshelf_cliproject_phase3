@@ -114,5 +114,9 @@ def add_to_watchlist(user_id, movie_id):
 
 def list_watchlist(user_id):
     session = Session()
-    try:        
+    try:       
+        reviews = session.query(Review).filter_by(user_id=user_id).all()
+        if not reviews:
+            print("📭 Your watchlist is empty.")
+            return 
         
