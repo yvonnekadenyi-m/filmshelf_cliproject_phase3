@@ -143,4 +143,30 @@ def list_user_movies(user_id):
 
     finally:
         session.close()       
+
+
+def mark_movie_watched(review_id, rating=None):
+    """Mark a movie as watched and optionally add a rating"""
+    session = Session()
+    try:
+        review = session.query(Review).filter_by(id=review_id).first()
+        if not review:
+            print(f"❌ Review with ID {review_id} not found!")
+            return False
+        
+        review.watched = True
+        if rating is not None:
+            review.rating = rating
+        
+        session.commit()
+        print(f"✅ Movie '{review.movie.title}' marked as watched!")
+        return True
+    
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error updating review: {e}")
+        return False
+    
+    finally:
+        session.close()        
         
