@@ -19,4 +19,11 @@ def seed_data():
         session.add_all([movie1, movie2, movie3, movie4])
         session.commit()
         
+        review1 = Review(
+            user_id=user1.id,
+            movie_id=movie1.id,
+            content="Amazing movie! A masterpiece.",
+            rating=5,
+            watched=True
+        )
         
