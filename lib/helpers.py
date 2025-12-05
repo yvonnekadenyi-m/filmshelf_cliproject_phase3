@@ -120,3 +120,16 @@ def list_watchlist(user_id):
             print("📭 Your watchlist is empty.")
             return 
         
+        table_data = []
+        for r in reviews:
+            status = "✅ Watched" if r.watched else "⏳ Not Watched"
+            rating = f"{r.rating}/5 ⭐" if r.rating else "No rating"
+            table_data.append([
+                r.id,
+                r.movie.title,
+                r.movie.genre or "N/A",
+                r.movie.year or "N/A",
+                status,
+                rating
+            ])
+        
