@@ -193,6 +193,27 @@ def add_review(review_id, content, rating):
     finally:
         session.close()
 
+def list_all_reviews(user_id):
+    """Display all reviews by a user"""
+    session = Session()
+    try:
+        reviews = session.query(Review).filter_by(user_id=user_id).filter(Review.content.isnot(None)).all()
+        if not reviews:
+            print("📭 No reviews found.")
+            return    
+        
+        print("\n" + "="*60)
+        for r in reviews:
+            print(f"🎬 {r.movie.title} - {r.rating}/5 ⭐")
+            print(f"   {r.content}")
+            print("-"*60)
+    finally:
+        session.close()
+
+
+
+
+
 
 def delete_from_watchlist(review_id):
     """Remove a movie from user's watchlist"""
