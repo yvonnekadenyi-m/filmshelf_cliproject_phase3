@@ -254,3 +254,25 @@ def view_user_reviews():
             return
         rows = [(r.id, r.movie.title, r.rating, r.comment or "-") for r in reviews]
         print(tabulate(rows, headers=["Review ID", "Movie", "Rating", "Comment"], tablefmt="github"))
+
+
+def add_review():
+    for session in get_session():
+        user = choose_from_list(User.get_all(session), lambda u: f"{u.username} (id={u.id})")
+        movie = choose_from_list(Movie.get_all(session), lambda m: f"{m.title} (id={m.id})")
+
+    if not user or not movie:
+        return
+
+    if session.query(Review).filter_by(user_id=user.id, movie_id=movie.id).first():
+        print("Already reviewed this movie.")
+        return
+
+    rating = prompt_int("Rating (1-5): ", 1, 5)
+    comment = input("Comment: ").strip() or None
+
+    try:
+        Review.create(session, user=user, movie=movie, rating=rating, comment=comment)
+        print(f"{user.username} rated '{movie.title}' {rating}/5.")
+    except ValueError as exc:
+        print(exc)
