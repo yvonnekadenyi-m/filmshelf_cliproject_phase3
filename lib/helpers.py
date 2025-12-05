@@ -169,4 +169,9 @@ def mark_movie_watched(review_id):
     
     finally:
         session.close()        
-        
+
+
+def add_review(review_id, content, rating):
+    """Add review content and rating to an existing watchlist entry"""
+    session = Session()
+    try:        
