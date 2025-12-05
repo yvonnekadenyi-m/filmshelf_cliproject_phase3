@@ -145,7 +145,7 @@ def list_user_movies(user_id):
         session.close()       
 
 
-def mark_movie_watched(review_id, rating=None):
+def mark_movie_watched(review_id):
     """Mark a movie as watched and optionally add a rating"""
     session = Session()
     try:
