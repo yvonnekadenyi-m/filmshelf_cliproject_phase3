@@ -54,3 +54,17 @@ choice = prompt_int("Select: ", 0 if allow_skip else 1, len(items))
 if choice == 0 and allow_skip:
     return None
 return items[choice - 1] 
+
+
+def add_genre():
+    name = prompt_nonempty("Genre name: ")
+    for session in get_session():
+        existing = session.query(Genre).filter_by(name=name).first()
+        if existing:
+            print("Genre already exists.")
+            return
+        try:
+            Genre.create(session, name=name)
+            print(f"Genre '{name}' added.")
+        except ValueError as exc:
+            print(exc)
