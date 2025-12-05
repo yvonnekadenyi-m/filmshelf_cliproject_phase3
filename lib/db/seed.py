@@ -5,3 +5,10 @@ def seed_data():
     init_db()
     session = Session()
     
+    try:
+        # Create users
+        user1 = User(name="Alice")
+        user2 = User(name="Bob")
+        session.add_all([user1, user2])
+        session.commit()
+        
