@@ -89,3 +89,8 @@ def add_to_watchlist(user_id, movie_id):
     """Add a movie to user's watchlist (creates a review entry)"""
     session = Session()
     try:
+        existing = session.query(Review).filter_by(
+            user_id=user_id, 
+            movie_id=movie_id
+        ).first()
+        
