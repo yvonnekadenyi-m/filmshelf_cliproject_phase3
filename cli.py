@@ -41,4 +41,16 @@ def choose_from_list(items, label=str, allow_skip=False):
     """Show a list and let the user choose an item."""
     if not items:
         print("Nothing to choose from.")
-        return None       
+        return None      
+
+
+    table = [(i + 1, label(x)) for i, x in enumerate(items)]
+print(tabulate(table, headers=["#", "Choice"], tablefmt="github"))
+
+if allow_skip:
+    print("0. Skip")
+
+choice = prompt_int("Select: ", 0 if allow_skip else 1, len(items))
+if choice == 0 and allow_skip:
+    return None
+return items[choice - 1] 
