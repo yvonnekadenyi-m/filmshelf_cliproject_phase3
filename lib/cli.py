@@ -26,3 +26,11 @@ def display_menu():
     print("  10. View My Reviews")
     print("\n  0. Exit")
     print("="*50)
+
+
+def get_current_user(session):
+    """Helper to get or select current user"""
+    users = session.query(User).all()
+    if not users:
+        print("\n❌ No users found! Please create a user first (Option 1).")
+        return None
