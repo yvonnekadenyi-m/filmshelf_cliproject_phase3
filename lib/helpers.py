@@ -134,9 +134,12 @@ def list_watchlist(user_id):
             ])
 
 
-    print("\n" + tabulate(
+        print("\n" + tabulate(
             table_data, 
             headers=["Review ID", "Title", "Genre", "Year", "Status", "Rating"],
             tablefmt="grid"
-        ))        
+        ))     
+
+    finally:
+        session.close()       
         
