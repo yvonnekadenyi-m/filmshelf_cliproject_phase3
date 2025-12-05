@@ -68,3 +68,47 @@ def add_genre():
             print(f"Genre '{name}' added.")
         except ValueError as exc:
             print(exc)
+
+def list_genres():
+    for session in get_session():
+        genres = Genre.get_all(session)
+        if not genres:
+            print("No genres found.")
+            return
+        print(tabulate([(g.id, g.name) for g in genres], headers=["ID", "Genre"], tablefmt="github"))
+
+def delete_genre():
+    for session in get_session():
+        genres = Genre.get_all(session)
+        if not genres:
+            print("No genres to delete.")
+            return
+        genre = choose_from_list(genres, lambda g: f"{g.name} (id={g.id})")
+        if not genre:
+            return
+        if genre.movies:
+            print("Cannot delete a genre that still has movies.")
+            return
+        Genre.delete(session, genre)
+        print(f"Genre '{genre.name}' deleted.")
+
+def find_genre_by_name():
+    name = prompt_nonempty("Genre name: ")
+    for session in get_session():
+        genre = session.query(Genre).filter(Genre.name.ilike(f"%{name}%")).all()
+        if not genre:
+            print("No matching genres.")
+            return
+        print(tabulate([(g.id, g.name) for g in genre], headers=["ID", "Genre"], tablefmt="github"))
+
+def view_movies_for_genre():
+    for session in get_session():
+        genres = Genre.get_all(session)
+        genre = choose_from_list(genres, lambda g: f"{g.name} (id={g.id})")
+        if not genre:
+            return
+        movies = genre.movies
+        if not movies:
+            print("No movies for this genre.")
+            return
+        print(tabulate([(m.id, m.title) for m in movies], headers=["ID", "Title"], tablefmt="github"))            
