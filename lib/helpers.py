@@ -107,4 +107,7 @@ def add_to_watchlist(user_id, movie_id):
         session.rollback()
         print(f"❌ Error adding to watchlist: {e}")
         return None
+    
+    finally:
+        session.close()
         
