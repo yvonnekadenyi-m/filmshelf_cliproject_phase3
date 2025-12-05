@@ -143,4 +143,24 @@ def main():
             except ValueError:
                 print("❌ Please enter a valid number!")
                  
+
+        elif choice == "9":
+            if not current_user:
+                print("❌ Please select a user first (Option 4)!")
+                continue     
+
+            list_user_movies(current_user.id)
+            try:
+                review_id = int(input("\nEnter Review ID to add/edit review: "))
+                content = input("Enter your review: ").strip()
+                rating = int(input("Enter rating (1-5): "))
+
+                if 1 <= rating <= 5:
+                    add_review(review_id, content, rating)
+                else:
+                    print("❌ Rating must be between 1 and 5!")
+            except ValueError:
+                print("❌ Please enter valid numbers!")
+        
+                    
                         
