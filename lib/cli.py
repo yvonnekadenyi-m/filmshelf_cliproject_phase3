@@ -34,3 +34,7 @@ def get_current_user(session):
     if not users:
         print("\n❌ No users found! Please create a user first (Option 1).")
         return None
+    
+    print("\n👥 Available Users:")
+    for u in users:
+        print(f"  {u.id}. {u.name}")
