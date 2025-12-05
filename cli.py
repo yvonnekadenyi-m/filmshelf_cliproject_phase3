@@ -276,3 +276,153 @@ def add_review():
         print(f"{user.username} rated '{movie.title}' {rating}/5.")
     except ValueError as exc:
         print(exc)
+
+    if not user or not movie:
+        return
+
+    if session.query(Review).filter_by(user_id=user.id, movie_id=movie.id).first():
+        print("Already reviewed this movie.")
+        return
+
+    rating = prompt_int("Rating (1-5): ", 1, 5)
+    comment = input("Comment: ").strip() or None
+
+    try:
+        Review.create(session, user=user, movie=movie, rating=rating, comment=comment)
+        print(f"{user.username} rated '{movie.title}' {rating}/5.")
+    except ValueError as exc:
+        print(exc)
+
+def list_reviews():
+    for session in get_session():
+        reviews = (
+            session.query(Review)
+            .join(User)
+            .join(Movie)
+            .with_entities(Review.id, User.username, Movie.title, Review.rating, Review.comment, Review.created_at)
+            .all()
+        )
+        if not reviews:
+            print("No reviews found.")
+        else:
+            print(tabulate(reviews, headers=["ID", "User", "Movie", "Rating", "Comment", "Created"], tablefmt="github"))
+
+def delete_review():
+    for session in get_session():
+        reviews = Review.get_all(session)
+        if not reviews:
+            print("No reviews to delete.")
+            return
+        review = choose_from_list(
+            reviews, lambda r: f"{r.id}: {r.user.username} -> {r.movie.title} ({r.rating}/5)"
+        )
+        if not review:
+            return
+        Review.delete(session, review)
+        print("Review deleted.")
+
+def find_review_by_id():
+    review_id = prompt_int("Review ID: ", lo=1)
+    for session in get_session():
+        review = Review.find_by_id(session, review_id)
+        if not review:
+            print("Review not found.")
+            return
+        rows = [
+            (
+                review.id,
+                review.user.username,
+                review.movie.title,
+                review.rating,
+                review.comment or "-",
+                review.created_at,
+            )
+        ]
+        print(tabulate(rows, headers=["ID", "User", "Movie", "Rating", "Comment", "Created"], tablefmt="github"))
+
+def run_menu(title, options):
+    """Generic loop to render a menu and trigger handlers."""
+    while True:
+        print(f"\n--- {title} ---")
+        for number, (label, _) in options.items():
+            print(f"{number}. {label}")
+        choice = input("Choose an option: ").strip()
+        if choice == "0":
+            return
+        action = options.get(choice)
+        if not action:
+            print("Invalid option. Try again.")
+            continue
+        action1
+
+def main_menu():
+    while True:
+        print("\n=== Movie Watchlist CLI ===")
+        print("1. Movies")
+        print("2. Genres")
+        print("3. Users")
+        print("4. Reviews")
+        print("0. Exit")
+        choice = input("Choose an option: ").strip()
+        if choice == "0":
+            print("Goodbye!")
+            break
+        if choice == "1":
+            run_menu(
+                "Movies",
+                {
+                    "1": ("Add movie", add_movie),
+                    "2": ("List movies", list_movies),
+                    "3": ("Delete movie", delete_movie),
+                    "4": ("Find movie by title", find_movie_by_title),
+                    "5": ("View reviews for movie", view_reviews_for_movie),
+                    "6": ("List movies by genre", list_movies_by_genre),
+                    "0": ("Back", lambda: None),
+                },
+            )
+        elif choice == "2":
+            run_menu(
+                "Genres",
+                {
+                    "1": ("Add genre", add_genre),
+                    "2": ("List genres", list_genres),
+                    "3": ("Delete genre", delete_genre),
+                    "4": ("Find genre by name", find_genre_by_name),
+                    "5": ("View movies in genre", view_movies_for_genre),
+                    "0": ("Back", lambda: None),
+                },
+            )
+        elif choice == "3":
+            run_menu(
+                "Users",
+                {
+                    "1": ("Add user", add_user),
+                    "2": ("List users", list_users),
+                    "3": ("Delete user", delete_user),
+                    "4": ("Find user", find_user),
+                    "5": ("View user reviews", view_user_reviews),
+                    "0": ("Back", lambda: None),
+                },
+            )
+        elif choice == "4":
+            run_menu(
+                "Reviews",
+                {
+                    "1": ("Add review", add_review),
+                    "2": ("List reviews", list_reviews),
+                    "3": ("Delete review", delete_review),
+                    "4": ("Find review by ID", find_review_by_id),
+                    "0": ("Back", lambda: None),
+                },
+            )
+        else:
+            print("Invalid option. Try again.")
+
+def main():
+    init_db()
+    main_menu()
+
+if name == "main":
+    main()
+
+    
