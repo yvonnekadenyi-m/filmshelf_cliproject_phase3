@@ -65,3 +65,8 @@ def add_movie(title, genre=None, year=None):
     """Add a movie to the database (or return existing)"""
     session = Session()
     try:
+
+        movie = session.query(Movie).filter_by(title=title).first()
+        if movie:
+            print(f"ℹ️  Movie '{title}' already exists in database.")
+            return movie
