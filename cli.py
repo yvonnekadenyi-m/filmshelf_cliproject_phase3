@@ -13,3 +13,32 @@ def get_session():
         print(f"Error: {exc}")
     finally:
         session.close()
+
+def prompt_nonempty(message):
+    """Ask until a non-empty string is entered."""
+    while True:
+        value = input(message).strip()
+        if value:
+            return value
+        print("Input cannot be empty. Try again.")
+
+def prompt_int(message, lo=None, hi=None):
+    """Ask until a valid integer is entered (with optional limits)."""
+    while True:
+        try:
+            number = int(input(message).strip())
+            if lo is not None and number < lo:
+                print(f"Value must be ≥ {lo}")
+                continue
+            if hi is not None and number > hi:
+                print(f"Value must be ≤ {hi}")
+                continue
+            return number
+        except ValueError:
+            print("Enter a valid integer.")
+
+def choose_from_list(items, label=str, allow_skip=False):
+    """Show a list and let the user choose an item."""
+    if not items:
+        print("Nothing to choose from.")
+        return None       
