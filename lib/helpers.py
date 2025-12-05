@@ -76,3 +76,8 @@ def add_movie(title, genre=None, year=None):
         session.commit()
         print(f"✅ Movie '{title}' added to database!")
         return movie
+    
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error adding movie: {e}")
+        return None
