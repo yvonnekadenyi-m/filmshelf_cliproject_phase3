@@ -110,4 +110,9 @@ def add_to_watchlist(user_id, movie_id):
     
     finally:
         session.close()
+
+
+def list_watchlist(user_id):
+    session = Session()
+    try:        
         
