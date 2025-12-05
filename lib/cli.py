@@ -38,3 +38,13 @@ def get_current_user(session):
     print("\n👥 Available Users:")
     for u in users:
         print(f"  {u.id}. {u.name}")
+
+    while True:
+        try:
+            user_id = int(input("\nEnter user ID: "))
+            user = session.query(User).filter_by(id=user_id).first()
+            if user:
+                return user
+            print("❌ Invalid user ID! Try again.")
+        except ValueError:
+            print("❌ Please enter a number!")
