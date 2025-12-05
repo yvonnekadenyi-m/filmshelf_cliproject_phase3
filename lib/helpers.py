@@ -174,4 +174,19 @@ def mark_movie_watched(review_id):
 def add_review(review_id, content, rating):
     """Add review content and rating to an existing watchlist entry"""
     session = Session()
-    try:        
+    try:
+        review = session.query(Review).filter_by(id=review_id).first()
+        if not review:
+            print(f"❌ Review with ID {review_id} not found!")
+            return False
+        
+        review.content = content
+        review.rating = rating
+        session.commit()
+        print(f"✅ Review for '{review.movie.title}' updated successfully!")
+        return True     
+
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error updating review: {e}")
+        return False   
