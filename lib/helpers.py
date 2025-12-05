@@ -70,3 +70,9 @@ def add_movie(title, genre=None, year=None):
         if movie:
             print(f"ℹ️  Movie '{title}' already exists in database.")
             return movie
+        
+        movie = Movie(title=title, genre=genre, year=year)
+        session.add(movie)
+        session.commit()
+        print(f"✅ Movie '{title}' added to database!")
+        return movie
