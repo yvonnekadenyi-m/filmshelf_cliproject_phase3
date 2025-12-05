@@ -116,4 +116,17 @@ def main():
                 print("❌ Please select a user first (Option 4)!")
                 continue
             list_user_movies(current_user.id)
+
+
+        elif choice == "7":
+            if not current_user:
+                print("❌ Please select a user first (Option 4)!")
+                continue
+            
+            list_user_movies(current_user.id)
+            try:
+                review_id = int(input("\nEnter Review ID to mark as watched: "))
+                mark_watched(review_id)
+            except ValueError:
+                print("❌ Please enter a valid number!")    
                         
