@@ -81,3 +81,6 @@ def add_movie(title, genre=None, year=None):
         session.rollback()
         print(f"❌ Error adding movie: {e}")
         return None
+    
+    finally:
+        session.close()
