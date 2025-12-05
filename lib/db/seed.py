@@ -40,3 +40,10 @@ def seed_data():
             rating=5,
             watched=True
         )
+
+        review4 = Review(
+            user_id=user2.id,
+            movie_id=movie4.id,
+            watched=False
+        )
+        
