@@ -11,4 +11,12 @@ def seed_data():
         user2 = User(name="Bob")
         session.add_all([user1, user2])
         session.commit()
+
+        movie1 = Movie(title="The Shawshank Redemption", genre="Drama", year=1994)
+        movie2 = Movie(title="The Dark Knight", genre="Action", year=2008)
+        movie3 = Movie(title="Inception", genre="Sci-Fi", year=2010)
+        movie4 = Movie(title="Pulp Fiction", genre="Crime", year=1994)
+        session.add_all([movie1, movie2, movie3, movie4])
+        session.commit()
+        
         
