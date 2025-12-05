@@ -108,4 +108,12 @@ def main():
             
             movie = add_movie(title, genre, year)
             if movie:
-                add_to_watchlist(current_user.id, movie.id)        
+                add_to_watchlist(current_user.id, movie.id)  
+
+
+        elif choice == "6":
+            if not current_user:
+                print("❌ Please select a user first (Option 4)!")
+                continue
+            list_user_movies(current_user.id)
+                        
