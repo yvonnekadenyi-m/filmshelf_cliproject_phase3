@@ -146,3 +146,72 @@ def list_movies():
         else:
             print(tabulate(movies, headers=["ID", "Title", "Genre"], tablefmt="github"))
 
+
+def delete_movie():
+    for session in get_session():
+        movies = Movie.get_all(session)
+        if not movies:
+            print("No movies found.")
+            return
+        movie = choose_from_list(movies, lambda m: f"{m.title} (id={m.id})")
+        if not movie:
+            return
+        Movie.delete(session, movie)
+        print(f"'{movie.title}' deleted.")
+
+def find_movie_by_title():
+    title = prompt_nonempty("Title search: ")
+    for session in get_session():
+        matches = session.query(Movie).filter(Movie.title.ilike(f"%{title}%")).all()
+        if not matches:
+            print("No matching movies.")
+            return
+        rows = [(m.id, m.title, m.genre.name if m.genre else "-") for m in matches]
+        print(tabulate(rows, headers=["ID", "Title", "Genre"], tablefmt="github"))
+
+def view_reviews_for_movie():
+    for session in get_session():
+        movie = choose_from_list(Movie.get_all(session), lambda m: f"{m.title} (id={m.id})")
+        if not movie:
+            return
+        reviews = movie.reviews
+        if not reviews:
+            print("No reviews for this movie.")
+            return
+        rows = [(r.id, r.user.username, r.rating, r.comment or "-") for r in reviews]
+        print(tabulate(rows, headers=["Review ID", "User", "Rating", "Comment"], tablefmt="github"))
+
+def list_movies_by_genre():
+    for session in get_session():
+        genre = choose_from_list(Genre.get_all(session), lambda g: f"{g.name} (id={g.id})")
+        if not genre:
+            return
+        movies = genre.movies
+        if not movies:
+            print("No movies in this genre.")
+            return
+        print(tabulate([(m.id, m.title) for m in movies], headers=["ID", "Title"], tablefmt="github"))
+
+---------------- User Commands ----------------
+def add_user():
+    username = prompt_nonempty("Username: ")
+    email = input("Email (optional): ").strip() or None
+
+for session in get_session():
+    if session.query(User).filter_by(username=username).first():
+        print("Username already exists.")
+        return
+    if email and session.query(User).filter_by(email=email).first():
+        print("Email already exists.")
+        return
+    try:
+        User.create(session, username=username, email=email)
+        print(f"User '{username}' added.")
+    except ValueError as exc:
+        print(exc)
+def list_users():
+    for session in get_session():
+        users = User.get_all(session)
+        if not users:
+            print("No users found.")
+        else:
