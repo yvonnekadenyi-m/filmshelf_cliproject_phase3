@@ -211,10 +211,6 @@ def list_all_reviews(user_id):
         session.close()
 
 
-
-
-
-
 def delete_from_watchlist(review_id):
     """Remove a movie from user's watchlist"""
     session = Session()
