@@ -48,3 +48,28 @@ def get_current_user(session):
             print("❌ Invalid user ID! Try again.")
         except ValueError:
             print("❌ Please enter a number!")
+
+
+def main():
+    """Main CLI loop"""
+    # Initialize database
+    init_db()
+
+    current_user = None
+    session = Session()
+    
+    while True:
+        display_menu()
+        
+        if current_user:
+            print(f"\n✨ Logged in as: {current_user.name}")            
+        
+        choice = input("\nEnter your choice: ").strip()
+        
+        # USER MANAGEMENT
+        if choice == "1":
+            name = input("\nEnter user name: ").strip()
+            if name:
+                create_user(name)
+            else:
+                print("❌ Name cannot be empty!")
