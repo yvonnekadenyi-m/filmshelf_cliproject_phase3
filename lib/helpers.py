@@ -84,3 +84,8 @@ def add_movie(title, genre=None, year=None):
     
     finally:
         session.close()
+
+def add_to_watchlist(user_id, movie_id):
+    """Add a movie to user's watchlist (creates a review entry)"""
+    session = Session()
+    try:
