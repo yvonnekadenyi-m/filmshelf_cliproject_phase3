@@ -12,4 +12,8 @@ User Management
 - Delete users
 - Switch between users
 
-
+Wachlist Management
+- Add movies to your personal watchlist
+- View all movies in your watchlist
+- Mark movies as watched
+- Remove movies from watchlist
