@@ -47,3 +47,20 @@ def seed_data():
             watched=False
         )
         
+        session.add_all([review1, review2, review3, review4])
+        session.commit()
+
+        print("✅ Sample data added successfully!")
+        print(f"   - Users: {user1.name}, {user2.name}")
+        print(f"   - Movies: {len([movie1, movie2, movie3, movie4])} added")
+        print(f"   - Watchlist entries: {len([review1, review2, review3, review4])} created")
+        
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error seeding data: {e}")
+    finally:
+        session.close()
+
+
+if __name__ == "__main__":
+    seed_data()
