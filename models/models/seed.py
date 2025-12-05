@@ -1,4 +1,4 @@
-from lib.models import Session, User, Movie, Review, init_db
+from models.review import Session, User, Movie, Review, init_db
 
 def seed_data():
     """Add sample data to the database"""

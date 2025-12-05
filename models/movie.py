@@ -1,4 +1,4 @@
-from lib.models import Session, User, Movie, Review
+from models.review import Session, User, Movie, Review
 from tabulate import tabulate
 
 def create_user(name):
