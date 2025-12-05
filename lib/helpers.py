@@ -192,3 +192,27 @@ def add_review(review_id, content, rating):
         return False   
     finally:
         session.close()
+
+
+def delete_from_watchlist(review_id):
+    """Remove a movie from user's watchlist"""
+    session = Session()
+    try:
+        review = session.query(Review).filter_by(id=review_id).first()
+        if not review:
+            print(f"❌ Review with ID {review_id} not found!")
+            return False
+        
+        movie_title = review.movie.title
+        session.delete(review)
+        session.commit()
+        print(f"✅ Movie '{review.movie.title}' removed from your watchlist!")
+        return True
+    
+    except Exception as e:
+        session.rollback()
+        print(f"❌ Error removing from watchlist: {e}")
+        return False
+    
+    finally:
+        session.close()   
