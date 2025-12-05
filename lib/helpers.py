@@ -93,4 +93,7 @@ def add_to_watchlist(user_id, movie_id):
             user_id=user_id, 
             movie_id=movie_id
         ).first()
+        if existing:
+            print("ℹ️  Movie already in watchlist.")
+            return existing
         
