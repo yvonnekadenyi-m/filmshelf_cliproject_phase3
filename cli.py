@@ -112,3 +112,8 @@ def view_movies_for_genre():
             print("No movies for this genre.")
             return
         print(tabulate([(m.id, m.title) for m in movies], headers=["ID", "Title"], tablefmt="github"))            
+
+
+def add_movie():
+    title = prompt_nonempty("Movie title: ")
+    genre_name = prompt_nonempty("Genre: ")
