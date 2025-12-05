@@ -190,3 +190,5 @@ def add_review(review_id, content, rating):
         session.rollback()
         print(f"❌ Error updating review: {e}")
         return False   
+    finally:
+        session.close()
