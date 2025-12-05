@@ -27,3 +27,8 @@ def seed_data():
             watched=True
         )
         
+        review2 = Review(
+            user_id=user1.id,
+            movie_id=movie2.id,
+            watched=False
+        )
