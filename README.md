@@ -17,3 +17,10 @@ Wachlist Management
 - View all movies in your watchlist
 - Mark movies as watched
 - Remove movies from watchlist
+
+Reviews and Ratings
+- Write reviews for movies
+- Rate movies (1-5 stars)
+- View all your reviews
+
+

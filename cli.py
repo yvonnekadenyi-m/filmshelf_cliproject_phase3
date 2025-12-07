@@ -42,18 +42,16 @@ def choose_from_list(items, label=str, allow_skip=False):
     if not items:
         print("Nothing to choose from.")
         return None      
-
-
     table = [(i + 1, label(x)) for i, x in enumerate(items)]
-print(tabulate(table, headers=["#", "Choice"], tablefmt="github"))
+    print(tabulate(table, headers=["#", "Choice"], tablefmt="github"))
 
-if allow_skip:
-    print("0. Skip")
+    if allow_skip:
+        print("0. Skip")
 
-choice = prompt_int("Select: ", 0 if allow_skip else 1, len(items))
-if choice == 0 and allow_skip:
-    return None
-return items[choice - 1] 
+    choice = prompt_int("Select: ", 0 if allow_skip else 1, len(items))
+    if choice == 0 and allow_skip:
+        return None
+    return items[choice - 1]
 
 
 def add_genre():
@@ -117,22 +115,21 @@ def view_movies_for_genre():
 def add_movie():
     title = prompt_nonempty("Movie title: ")
     genre_name = prompt_nonempty("Genre: ")
-
     for session in get_session():
-    genre = session.query(Genre).filter_by(name=genre_name).first()
-    if not genre:
-        genre = Genre.create(session, name=genre_name)
+        genre = session.query(Genre).filter_by(name=genre_name).first()
+        if not genre:
+            genre = Genre.create(session, name=genre_name)
 
-    exists = session.query(Movie).filter_by(title=title, genre_id=genre.id).first()
-    if exists:
-        print("This movie already exists.")
-        return
+        exists = session.query(Movie).filter_by(title=title, genre_id=genre.id).first()
+        if exists:
+            print("This movie already exists.")
+            return
 
-    try:
-        Movie.create(session, title=title, genre=genre)
-        print(f"'{title}' added under genre '{genre_name}'.")
-    except ValueError as exc:
-        print(exc)
+        try:
+            Movie.create(session, title=title, genre=genre)
+            print(f"'{title}' added under genre '{genre_name}'.")
+        except ValueError as exc:
+            print(exc)
 def list_movies():
     for session in get_session():
         movies = (
@@ -192,31 +189,29 @@ def list_movies_by_genre():
             return
         print(tabulate([(m.id, m.title) for m in movies], headers=["ID", "Title"], tablefmt="github"))
 
----------------- User Commands ----------------
 def add_user():
     username = prompt_nonempty("Username: ")
     email = input("Email (optional): ").strip() or None
 
-for session in get_session():
-    if session.query(User).filter_by(username=username).first():
-        print("Username already exists.")
-        return
-    if email and session.query(User).filter_by(email=email).first():
-        print("Email already exists.")
-        return
-    try:
-        User.create(session, username=username, email=email)
-        print(f"User '{username}' added.")
-    except ValueError as exc:
-        print(exc)
+    for session in get_session():
+        if session.query(User).filter_by(username=username).first():
+            print("Username already exists.")
+            return
+        if email and session.query(User).filter_by(email=email).first():
+            print("Email already exists.")
+            return
+        try:
+            User.create(session, username=username, email=email)
+            print(f"User '{username}' added.")
+        except ValueError as exc:
+            print(exc)
 def list_users():
     for session in get_session():
         users = User.get_all(session)
         if not users:
             print("No users found.")
         else:
-
-             table = [(u.id, u.username, u.email or "-") for u in users]
+            table = [(u.id, u.username, u.email or "-") for u in users]
             print(tabulate(table, headers=["ID", "Username", "Email"], tablefmt="github"))
 
 def delete_user():
@@ -260,23 +255,6 @@ def add_review():
     for session in get_session():
         user = choose_from_list(User.get_all(session), lambda u: f"{u.username} (id={u.id})")
         movie = choose_from_list(Movie.get_all(session), lambda m: f"{m.title} (id={m.id})")
-
-    if not user or not movie:
-        return
-
-    if session.query(Review).filter_by(user_id=user.id, movie_id=movie.id).first():
-        print("Already reviewed this movie.")
-        return
-
-    rating = prompt_int("Rating (1-5): ", 1, 5)
-    comment = input("Comment: ").strip() or None
-
-    try:
-        Review.create(session, user=user, movie=movie, rating=rating, comment=comment)
-        print(f"{user.username} rated '{movie.title}' {rating}/5.")
-    except ValueError as exc:
-        print(exc)
-
     if not user or not movie:
         return
 
@@ -353,7 +331,9 @@ def run_menu(title, options):
         if not action:
             print("Invalid option. Try again.")
             continue
-        action1
+        # action is a (label, handler) tuple
+        handler = action[1]
+        handler()
 
 def main_menu():
     while True:
@@ -422,7 +402,7 @@ def main():
     init_db()
     main_menu()
 
-if name == "main":
+if __name__ == "__main__":
     main()
 
     
