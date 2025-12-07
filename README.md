@@ -23,4 +23,18 @@ Reviews and Ratings
 - Rate movies (1-5 stars)
 - View all your reviews
 
+Database Persistence
+
+- All data stored in SQLite database
+- SQLAlchemy ORM for database operations
+- Proper relationships between models
+
+#### Technology Stack
+
+Python 3.12+
+SQLAlchemy - ORM for database operations
+Tabulate - Clean table display in CLI
+SQLite - Lightweight database
+
+
 
